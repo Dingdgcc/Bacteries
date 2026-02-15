@@ -7,6 +7,7 @@ main_socket.bind(("localhost", 10000))  # IP и порт привязываем 
 main_socket.setblocking(False)  # Непрерывность, не ждём ответа
 main_socket.listen(5)  # Прослушка входящих соединений, 5 одновременных подключений
 print("Сокет создался")
+
 players = []
 while True:
     try:
@@ -27,4 +28,14 @@ while True:
         except:
             pass
 
+    # Отправляем статус игрового поля
+    for sock in players:
+        try:
+            sock.send("Игра".encode())
+        except:
+            players.remove(sock)
+            sock.close()
+            print("Сокет закрыт")
+
     time.sleep(1)
+
