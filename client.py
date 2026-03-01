@@ -1,9 +1,11 @@
+import math
 import socket
 import pygame
-import math
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Настраиваем сокет
 sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)  # Отключаем пакетирование
 sock.connect(("localhost", 10000))
+
 pygame.init()
 WIDTH = 800
 HEIGHT = 600
@@ -33,6 +35,7 @@ while run:
                 old = vector
                 msg = f"<{vector[0]},{vector[1]}>"
                 sock.send(msg.encode())
+
     # Получаем
     data = sock.recv(1024).decode()
     print("Получил:", data)
@@ -41,4 +44,5 @@ while run:
     screen.fill('gray')
     pygame.draw.circle(screen, (255, 0, 0), CC, radius)
     pygame.display.update()
+
 pygame.quit()
